@@ -1,6 +1,6 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 
-from polls.api.v1.serializers import SurveySerializer, SurveyDetailSerializer
+from polls.api.v1.serializers import SurveySerializer, SurveyDetailSerializer, ParticipationSerializer
 from polls.models import Survey
 
 
@@ -12,3 +12,7 @@ class SurveyListAPIView(ListAPIView):
 class SurveyRetrieveAPIView(RetrieveAPIView):
     queryset = Survey.objects.all()
     serializer_class = SurveyDetailSerializer
+
+
+class ParticipationCreateAPIView(CreateAPIView):
+    serializer_class = ParticipationSerializer
