@@ -1,8 +1,10 @@
 from django.contrib import admin
 
-from .models import Survey, Question, Choice
+from .models import Survey, Question, Choice, Answer, Participation
 
 
 admin.site.register(Survey)
 admin.site.register(Question)
 admin.site.register(Choice)
+admin.site.register(Answer)
+admin.site.register(Participation)
