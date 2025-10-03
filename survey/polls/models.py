@@ -1,26 +1,20 @@
 from django.db import models
 
 
-class Logged(models.Model):
-    class Meta:
-        abstract = True
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='created_at')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='updated_at')
-
-
-class Survey(Logged):
+class Survey(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
+    valid_since = models.DateTimeField()
+    valid_until = models.DateTimeField()
 
 
-class Question(Logged):
+class Question(models.Model):
     survey = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
     text = models.CharField(max_length=500)
     required = models.BooleanField(default=True)
 
 
-class Choice(Logged):
+class Choice(models.Model):
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
 
