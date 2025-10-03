@@ -1,11 +1,28 @@
 from django.db import models
+from django.utils import timezone
+
+
+class SurveyQuerySet(models.QuerySet):
+    def valid(self, *args, **kwargs):
+        now = timezone.now()
+        return super(SurveyQuerySet, self).filter(*args, **kwargs).filter(
+            valid_since__lte=now,
+            valid_until__gt=now,
+        )
 
 
 class Survey(models.Model):
+    objects = SurveyQuerySet.as_manager()
+
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     valid_since = models.DateTimeField()
     valid_until = models.DateTimeField()
+
+    @property
+    def is_valid(self):
+        now = timezone.now()
+        return self.valid_since <= now < self.valid_until
 
 
 class Question(models.Model):

@@ -44,6 +44,11 @@ class ParticipationSerializer(serializers.ModelSerializer):
         model = Participation
         fields = '__all__'
 
+    def validate_survey(self, survey):
+        if not survey.is_valid:
+            raise serializers.ValidationError('Survey is not valid')
+        return survey
+
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
         participation = Participation.objects.create(**validated_data)
