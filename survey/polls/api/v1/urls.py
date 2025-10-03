@@ -9,4 +9,5 @@ urlpatterns = [
     path('surveys', views.SurveyListAPIView.as_view(), name="survey-list"),
     path('surveys/<int:pk>', views.SurveyRetrieveAPIView.as_view(), name="survey-detail"),
     path('participation', views.ParticipationCreateAPIView.as_view(), name="user-participation"),
+    path('surveys/<int:pk>/result', views.ResultAPIView.as_view(), name="survey-result"),
 ]

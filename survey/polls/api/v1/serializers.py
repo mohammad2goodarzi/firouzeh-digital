@@ -52,3 +52,19 @@ class ParticipationSerializer(serializers.ModelSerializer):
             for answer_data in answers_data
         ])
         return participation
+
+
+class ChoiceResultSerializer(serializers.ModelSerializer):
+    vote_count = serializers.IntegerField()
+
+    class Meta:
+        model = Choice
+        fields = '__all__'
+
+
+class ResultSerializer(serializers.ModelSerializer):
+    choice_set = ChoiceResultSerializer(many=True)
+
+    class Meta:
+        model = Question
+        fields = '__all__'
