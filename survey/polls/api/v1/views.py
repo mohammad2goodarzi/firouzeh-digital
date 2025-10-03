@@ -2,6 +2,7 @@ from django.db.models import Count, Prefetch
 from django.utils import timezone
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 
+from polls.api.v1.permissions import IsSurveyParticipant
 from polls.api.v1.serializers import SurveySerializer, SurveyDetailSerializer, ParticipationSerializer, ResultSerializer
 from polls.models import Survey, Choice, Question
 
@@ -22,6 +23,7 @@ class ParticipationCreateAPIView(CreateAPIView):
 
 class ResultAPIView(ListAPIView):
     serializer_class = ResultSerializer
+    permission_classes = [IsSurveyParticipant]
 
     def get_queryset(self):
         now = timezone.now()
