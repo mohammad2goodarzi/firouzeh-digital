@@ -1,12 +1,6 @@
 from django.db import models
 
 
-QUESTION_TYPES = [
-    ('single', 'single'),
-    ('multiple', 'multiple'),
-]
-
-
 class Logged(models.Model):
     class Meta:
         abstract = True
@@ -23,10 +17,19 @@ class Survey(Logged):
 class Question(Logged):
     survey = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
     text = models.CharField(max_length=500)
-    question_type = models.CharField(max_length=10, choices=QUESTION_TYPES, default='single')
     required = models.BooleanField(default=True)
 
 
 class Choice(Logged):
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
+
+
+class Participation(models.Model):
+    survey = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
+    user_id = models.IntegerField()
+
+
+class Answer(models.Model):
+    participation = models.ForeignKey(to=Participation, on_delete=models.CASCADE)
+    choice = models.ForeignKey(to=Choice, on_delete=models.CASCADE)
