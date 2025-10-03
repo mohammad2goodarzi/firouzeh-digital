@@ -23,6 +23,11 @@ class Participation(models.Model):
     survey = models.ForeignKey(to=Survey, on_delete=models.CASCADE)
     user_id = models.IntegerField()
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['survey', 'user_id'], name='unique_participation_per_user')
+        ]
+
 
 class Answer(models.Model):
     participation = models.ForeignKey(to=Participation, on_delete=models.CASCADE)
