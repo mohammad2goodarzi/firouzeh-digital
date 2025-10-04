@@ -19,6 +19,8 @@ class SurveyRetrieveAPIView(RetrieveAPIView):
 
 class ParticipationCreateAPIView(CreateAPIView):
     serializer_class = ParticipationSerializer
+    # TODO: I should validate that selected choices are for the given survey or not
+    # TODO: and I should validate that all required questions has been answered or not
 
 
 class ResultAPIView(ListAPIView):
