@@ -12,6 +12,9 @@ class ProfileMiddleware:
 
     def __call__(self, request):
         # قبل از پردازش view
+        if '/api/' not in request.path:
+            return self.get_response(request)
+
         jwt_token = request.headers.get('authorization', None)
         jwt_token = str.replace(str(jwt_token), 'Bearer ', '')
         payload = jwt.decode(jwt_token, options={"verify_signature": False})
