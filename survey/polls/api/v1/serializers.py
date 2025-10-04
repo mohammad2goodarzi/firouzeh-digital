@@ -42,7 +42,7 @@ class ParticipationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Participation
-        fields = '__all__'
+        exclude = ['user_id']
 
     def validate_survey(self, survey):
         if not survey.is_valid:
@@ -51,6 +51,7 @@ class ParticipationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         answers_data = validated_data.pop('answers')
+        validated_data['user_id'] = self.context['request'].profile.user_id
         participation = Participation.objects.create(**validated_data)
         Answer.objects.bulk_create([
             Answer(participation=participation, **answer_data)
